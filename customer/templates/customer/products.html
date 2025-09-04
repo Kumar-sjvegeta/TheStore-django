@@ -1,21 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Products</title>
     <style>
-        .counter-box {
-            display: none;
-            align-items: center;
+        table {
+            border-collapse: collapse;
+            width: 100%;
         }
-        .counter-box input {
-            width: 50px;
+
+        th, td {
+            border: 1px solid black;
+            padding: 10px;
             text-align: center;
         }
-        .counter-box button {
-            width: 25px;
-            height: 25px;
+
+        input[type=number] {
+            width: 60px;
+        }
+
+        button {
+            margin: 0 5px;
         }
     </style>
     <script>
@@ -33,15 +37,13 @@
     </script>
 </head>
 <body>
-    <H1>Welcome Customers ! </H1>
-    <H3>This page shows you all the products that we offer.</H3>
-    <H3>Please select the products you are looking for and proceed to checkout.</H3>
-    <form method="POST" action="{% url 'customer_products' %}">
+    <h1>Products</h1>
+    <form method="POST" action="{% url 'checkout' %}">
         {% csrf_token %}
         <table>
             <thead>
                 <tr>
-                    <th>Product</th>
+                    <th>Name</th>
                     <th>Price</th>
                     <th>Status</th>
                     <th>Select Quantity</th>
@@ -49,29 +51,31 @@
             </thead>
             <tbody>
                 {% for product in products %}
-                <td>{{ product.name }}</td>
-                <td>{{ product.price }}</td>
-                <td>
-                    {% if product.quantity > 0 %}
-                        In Stock
-                    {% else %}
-                        Out Of Stock
-                    {% endif %}
-                </td>
-                <td>
-                    {% if product.quantity > 0 %}
-                        <button type="button" onclick="decrement('{{ product.id }}')">-</button>
-                        <input type="number" name="quantity_{{ product.id }}" id="quantity_{{ product.id }}" value="1" min="1" max="{{ product.quantity }}">
-                        <button type="button" onclick="increment('{{ product.id }}')">+</button>
-                    {% else %}
+                <tr>
+                    <td>{{ product.name }}</td>
+                    <td>${{ product.price }}</td>
+                    <td>
+                        {% if product.quantity > 0 %}
+                            In Stock
+                        {% else %}
+                            Out of Stock
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if product.quantity > 0 %}
+                            <button type="button" onclick="decrement('{{ product.id }}')">-</button>
+                            <input type="number" name="quantity_{{ product.id }}" id="quantity_{{ product.id }}" value="1" min="1" max="{{ product.quantity }}">
+                            <button type="button" onclick="increment('{{ product.id }}')">+</button>
+                        {% else %}
                             N/A
-                    {% endif %}
-                </td>
+                        {% endif %}
+                    </td>
+                </tr>
                 {% endfor %}
             </tbody>
         </table>
+        <br>
         <button type="submit">Checkout</button>
     </form>
-
 </body>
 </html>
