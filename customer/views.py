@@ -6,7 +6,7 @@ import json
 # Create your views here.
 
 def home(request):
-    return render(request, 'home.html')
+    return render(request, 'customer/home.html')
 
 def products(request):
     pass
