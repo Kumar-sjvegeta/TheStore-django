@@ -5,11 +5,11 @@ from .models import Inventory
 # Create your views here.
 
 def home(request):
-    return render(request, 'home.html')
+    return render(request, 'staff/home.html')
 
 def inventory(request):
     all_items = Inventory.objects.all()
-    return render(request, 'inventory.html', {"items": all_items})
+    return render(request, 'staff/inventory.html', {"items": all_items})
 
 def resupply(request):
     if request.method == 'POST':
@@ -125,7 +125,7 @@ def add_items(request):
 
         return redirect('staff_inventory')
 
-    return render(request, 'add_items.html')
+    return render(request, 'staff/add_items.html')
 
 def delete_items(request):
     if request.method == 'POST':
@@ -208,4 +208,4 @@ def handle_inventory_actions(request):
     context = {
         'items': items
     }
-    return render(request, 'inventory.html', context)
+    return render(request, 'staff/inventory.html', context)

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products</title>
+    <style>
+        .counter-box {
+            display: none;
+            align-items: center;
+        }
+        .counter-box input {
+            width: 50px;
+            text-align: center;
+        }
+        .counter-box button {
+            width: 25px;
+            height: 25px;
+        }
+    </style>
+</head>
+<body>
+    <H1>Welcome Customers ! </H1>
+    <H3>This page shows you all the products that we offer.</H3>
+    <H3>Please select the products you are looking for and proceed to checkout.</H3>
+    <form method="POST" action="{% url 'customer_products' %}">
+        {% csrf_token %}
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                </tr>
+            </thead>
+        </table>
+
+    </form>
+
+</body>
+</html>

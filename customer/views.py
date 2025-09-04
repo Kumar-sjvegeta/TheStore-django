@@ -9,6 +9,9 @@ def home(request):
     return render(request, 'home.html')
 
 def products(request):
+    pass
+
+def products_json(request):
     all_products = Inventory.objects.all()
     print(f"all_products --> {all_products}")
     all_products_serialized = serializers.serialize('json', all_products)
