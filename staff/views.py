@@ -7,9 +7,13 @@ from .models import Inventory
 def home(request):
     return render(request, 'staff/home.html')
 
+
+
 def inventory(request):
     all_items = Inventory.objects.all()
     return render(request, 'staff/inventory.html', {"items": all_items})
+
+
 
 def resupply(request):
     if request.method == 'POST':
@@ -27,63 +31,7 @@ def resupply(request):
                     pass # skipping if non-integer value is submitted.
     return redirect('staff_inventory')
 
-# def add_items(request):
-#     if request.method == 'POST':
-#         i = 0
-#         while True:
-#             name_key = f'name_{i}'
-#             price_key = f'price_{i}'
-#             quantity_key = f'quantity_{i}'
-#
-#             if name_key not in request.POST:
-#                 break
-#                 #no more records
-#             name = request.POST.get(name_key, '').strip()
-#             try:
-#                 price = float(request.POST.get(price_key, '0'))
-#                 quantity = int(request.POST.get(quantity_key, '0'))
-#             except ValueError:
-#                 i += 1
-#                 continue #skipping invalid row
-#
-#             if name and price >= 0 and quantity >= 0:
-#                 Inventory.objects.create(name=name, price=price, quantity=quantity)
-#
-#             i += 1
-#
-#         return redirect('staff_inventory')
-#     return render(request, 'add_items.html')
 
-
-# def add_items(request):
-#     if request.method == 'POST':
-#         i = 0
-#         while True:
-#             name_key = f'name_{i}'
-#             price_key = f'price_{i}'
-#             quantity_key = f'quantity_{i}'
-#
-#             if name_key not in request.POST:
-#                 break  # No more rows
-#
-#             name = request.POST.get(name_key, '').strip()
-#             price = request.POST.get(price_key, '').strip()
-#             quantity = request.POST.get(quantity_key, '').strip()
-#
-#             if name:  # Only process rows where name is filled
-#                 try:
-#                     price = float(price)
-#                     quantity = int(quantity)
-#                     if price >= 0 and quantity >= 0:
-#                         Inventory.objects.create(name=name, price=price, quantity=quantity)
-#                 except ValueError:
-#                     pass  # Skip invalid rows silently
-#
-#             i += 1
-#
-#         return redirect('staff_inventory')
-#
-#     return render(request, 'add_items.html')
 
 def add_items(request):
     if request.method == 'POST':
@@ -127,6 +75,8 @@ def add_items(request):
 
     return render(request, 'staff/add_items.html')
 
+
+
 def delete_items(request):
     if request.method == 'POST':
         item_ids = request.POST.getlist('items_to_delete')
@@ -137,41 +87,6 @@ def delete_items(request):
     return redirect('staff_inventory')
 
 
-# def handle_inventory_actions(request):
-#     print(f"request method --> {request.method}")
-#     print(f"request data --> {request.POST}")
-#     if request.method == 'POST':
-#         action = request.POST.get('action')
-#
-#         if action == 'resupply':
-#             # This is the corrected loop to prevent unintended updates
-#             for key, value in request.POST.items():
-#                 if key.startswith('quantity_') and value.isdigit():
-#                     try:
-#                         item_id = int(key.split('_')[1])
-#                         added_qty = int(value)
-#
-#                         if added_qty > 0:
-#                             item = Inventory.objects.get(id=item_id)
-#                             item.quantity += added_qty
-#                             item.save()
-#                     except (ValueError, Inventory.DoesNotExist):
-#                         continue  # Skip to the next item if an error occurs
-#
-#         elif action == 'delete':
-#             item_ids = request.POST.getlist('items_to_delete')
-#             if item_ids:
-#                 Inventory.objects.filter(id__in=item_ids).delete()
-#             # Optionally, add a success message here
-#
-#         return redirect('staff_inventory')  # Redirect back to the inventory page
-#
-#     # This part handles the GET request to display the page
-#     items = Inventory.objects.all()
-#     context = {
-#         'items': items
-#     }
-#     return render(request, 'inventory.html', context)
 
 def handle_inventory_actions(request):
     print(f"request method --> {request.method}")
