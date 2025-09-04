@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory</title>
+    <style>
+        .counter-box {
+            display: none;
+            align-items: center;
+        }
+        .counter-box input {
+            width: 50px;
+            text-align: center;
+        }
+        .counter-box button {
+            width: 25px;
+            height: 25px;
+        }
+    </style>
+</head>
+<body>
+    <H3>This is the inventory page of the staff app in TheStore project. Welcome ! </H3>
+    <h1>Inventory List: </h1>
+    <a href="{% url 'add_items' %}">
+        <button type="button">Add New Items</button>
+    </a>
+
+    <form method="POST" action="{% url 'handle_inventory_actions' %}">
+        {% csrf_token %}
+        <table border="1">
+            <thead>
+                <tr>
+                    <th></th> <th>Name</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Add</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                    <tr>
+                        <td>
+                            <input type="checkbox" name="items_to_delete" value="{{ item.id }}">
+                        </td>
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.price }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>
+                            <button type="button" class="show-counter" data-id="{{ item.id }}">Add</button>
+                            <div class="counter-box" id="counter-{{ item.id }}">
+                                <button type="button" class="decrease" data-id="{{ item.id }}">-</button>
+                                <input type="number" name="quantity_{{ item.id }}" id="input-{{ item.id }}" value="0" min="0">
+                                <button type="button" class="increase" data-id="{{ item.id }}">+</button>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <button type="submit" name="action" value="delete">Delete selected items</button>
+        <button type="submit" name="action" value="resupply">Resupply</button>
+    </form>
+
+    <script>
+        document.querySelectorAll('.show-counter').forEach(button => {
+            button.addEventListener('click', () => {
+                const id = button.getAttribute('data-id');
+                const counterBox = document.getElementById(`counter-${id}`);
+                const input = document.getElementById(`input-${id}`);
+                counterBox.style.display = 'inline-flex';
+                // Set the value to 1 when the user clicks 'Add'
+                input.value = 1;
+                button.style.display = 'none'; // hide the "Add" button
+            });
+        });
+
+        document.querySelectorAll('.increase').forEach(button => {
+            button.addEventListener('click', () => {
+                const id = button.getAttribute('data-id');
+                const input = document.getElementById(`input-${id}`);
+                input.value = parseInt(input.value || 0) + 1;
+            });
+        });
+
+        document.querySelectorAll('.decrease').forEach(button => {
+            button.addEventListener('click', () => {
+                const id = button.getAttribute('data-id');
+                const input = document.getElementById(`input-${id}`);
+                const current = parseInt(input.value || 0);
+                // Allow the value to go down to 0
+                if (current > 0) input.value = current - 1;
+            });
+        });
+    </script>
+</body>
+</html>
