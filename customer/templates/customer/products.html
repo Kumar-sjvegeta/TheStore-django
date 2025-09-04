@@ -46,7 +46,7 @@
     </script>
 </head>
 <body>
-    <h1>Products</h1>
+    <h1>Products:</h1>
     <form method="POST" action="{% url 'customer_checkout' %}">
         {% csrf_token %}
         <table>
@@ -78,7 +78,7 @@
                             <!-- Quantity Controls (initially hidden) -->
                             <span class="quantity-controls" id="quantity_controls_{{ product.id }}">
                                 <button type="button" onclick="decrement('{{ product.id }}')">-</button>
-                                <input type="number" name="quantity_{{ product.id }}" id="quantity_{{ product.id }}" value="1" min="1" max="{{ product.quantity }}">
+                                <input type="number" name="quantity_{{ product.id }}" id="quantity_{{ product.id }}" value="0" min="0" max="{{ product.quantity }}">
                                 <button type="button" onclick="increment('{{ product.id }}')">+</button>
                             </span>
                         {% else %}
