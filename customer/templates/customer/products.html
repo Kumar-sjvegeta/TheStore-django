@@ -28,8 +28,16 @@
     </style>
     <script>
         function showQuantityControls(id) {
+            // Hide the "Select" button
             document.getElementById('select_btn_' + id).style.display = 'none';
-            document.getElementById('quantity_controls_' + id).style.display = 'inline-block';
+
+            // Show quantity controls
+            const controls = document.getElementById('quantity_controls_' + id);
+            controls.style.display = 'inline-block';
+
+            // Enable the input so it gets submitted
+            const input = document.getElementById('quantity_' + id);
+            input.disabled = false;
         }
 
         function increment(id) {
@@ -46,7 +54,7 @@
     </script>
 </head>
 <body>
-    <h1>Products:</h1>
+    <h1>Products</h1>
     <form method="POST" action="{% url 'customer_checkout' %}">
         {% csrf_token %}
         <table>
@@ -75,10 +83,18 @@
                             <!-- Select Button -->
                             <button type="button" id="select_btn_{{ product.id }}" onclick="showQuantityControls('{{ product.id }}')">Select</button>
 
-                            <!-- Quantity Controls (initially hidden) -->
+                            <!-- Quantity Controls (initially hidden and disabled) -->
                             <span class="quantity-controls" id="quantity_controls_{{ product.id }}">
                                 <button type="button" onclick="decrement('{{ product.id }}')">-</button>
-                                <input type="number" name="quantity_{{ product.id }}" id="quantity_{{ product.id }}" value="0" min="0" max="{{ product.quantity }}">
+                                <input
+                                    type="number"
+                                    name="quantity_{{ product.id }}"
+                                    id="quantity_{{ product.id }}"
+                                    value="1"
+                                    min="1"
+                                    max="{{ product.quantity }}"
+                                    disabled
+                                >
                                 <button type="button" onclick="increment('{{ product.id }}')">+</button>
                             </span>
                         {% else %}
