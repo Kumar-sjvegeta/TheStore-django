@@ -15,18 +15,25 @@ def products(request):
 def checkout(request):
     if request.method == 'POST':
         total = 0
+        purchased_products = []
         for key, value in request.POST.items():
             if key.startswith('quantity_'):
                 product_id = key.split('_')[1]
                 quantity = int(value)
                 try:
                     product = Inventory.objects.get(id=product_id)
-                    bill_for_current_product = product.price * quantity
-                    total = total + bill_for_current_product
+                    cost = product.price * quantity
+                    total = total + cost
+                    purchased_products.append({
+                        'name': product.name,
+                        'price': product.price,
+                        'quantity': quantity,
+                        'cost': cost
+                    })
                 except Inventory.DoesNotExist:
                     pass # skip quietly for invalid products
 
-        return render(request, 'customer/checkout.html', {'total': total})
+        return render(request, 'customer/checkout.html', {'purchased_products': purchased_products, 'total': total})
     return redirect('customer_products')
 
 def products_json(request):
