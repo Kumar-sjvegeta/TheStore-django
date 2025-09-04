@@ -18,6 +18,30 @@
             height: 25px;
         }
     </style>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 10px;
+            text-align: center;
+        }
+
+        input[type=number] {
+            width: 60px;
+        }
+
+        button {
+            margin: 0 5px;
+        }
+
+        .quantity-controls {
+            display: none;
+        }
+    </style>
 </head>
 <body>
     <H3>This is the inventory page of the staff app in TheStore project. Welcome ! </H3>
@@ -31,7 +55,8 @@
         <table border="1">
             <thead>
                 <tr>
-                    <th></th> <th>Name</th>
+                    <th>Select Items to delete</th>
+                    <th>Name</th>
                     <th>Price</th>
                     <th>Quantity</th>
                     <th>Add</th>
