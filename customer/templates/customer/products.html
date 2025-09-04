@@ -21,8 +21,17 @@
         button {
             margin: 0 5px;
         }
+
+        .quantity-controls {
+            display: none;
+        }
     </style>
     <script>
+        function showQuantityControls(id) {
+            document.getElementById('select_btn_' + id).style.display = 'none';
+            document.getElementById('quantity_controls_' + id).style.display = 'inline-block';
+        }
+
         function increment(id) {
             var input = document.getElementById('quantity_' + id);
             input.value = parseInt(input.value) + 1;
@@ -38,7 +47,7 @@
 </head>
 <body>
     <h1>Products</h1>
-    <form method="POST" action="{% url 'checkout' %}">
+    <form method="POST" action="{% url 'customer_checkout' %}">
         {% csrf_token %}
         <table>
             <thead>
@@ -63,9 +72,15 @@
                     </td>
                     <td>
                         {% if product.quantity > 0 %}
-                            <button type="button" onclick="decrement('{{ product.id }}')">-</button>
-                            <input type="number" name="quantity_{{ product.id }}" id="quantity_{{ product.id }}" value="1" min="1" max="{{ product.quantity }}">
-                            <button type="button" onclick="increment('{{ product.id }}')">+</button>
+                            <!-- Select Button -->
+                            <button type="button" id="select_btn_{{ product.id }}" onclick="showQuantityControls('{{ product.id }}')">Select</button>
+
+                            <!-- Quantity Controls (initially hidden) -->
+                            <span class="quantity-controls" id="quantity_controls_{{ product.id }}">
+                                <button type="button" onclick="decrement('{{ product.id }}')">-</button>
+                                <input type="number" name="quantity_{{ product.id }}" id="quantity_{{ product.id }}" value="1" min="1" max="{{ product.quantity }}">
+                                <button type="button" onclick="increment('{{ product.id }}')">+</button>
+                            </span>
                         {% else %}
                             N/A
                         {% endif %}

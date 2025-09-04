@@ -12,6 +12,10 @@ def products(request):
     all_products = Inventory.objects.all()
     return render(request, 'customer/products.html', {"products": all_products})
 
+def checkout(request):
+    if request.method == 'POST':
+        pass
+
 def products_json(request):
     all_products = Inventory.objects.all()
     print(f"all_products --> {all_products}")
