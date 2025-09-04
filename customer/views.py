@@ -9,7 +9,8 @@ def home(request):
     return render(request, 'customer/home.html')
 
 def products(request):
-    pass
+    all_products = Inventory.objects.all()
+    return render(request, 'customer/products.html', {"products": all_products})
 
 def products_json(request):
     all_products = Inventory.objects.all()

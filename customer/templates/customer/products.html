@@ -18,6 +18,19 @@
             height: 25px;
         }
     </style>
+    <script>
+        function increment(id) {
+            var input = document.getElementById('quantity_' + id);
+            input.value = parseInt(input.value) + 1;
+        }
+
+        function decrement(id) {
+            var input = document.getElementById('quantity_' + id);
+            if (parseInt(input.value) > 1) {
+                input.value = parseInt(input.value) - 1;
+            }
+        }
+    </script>
 </head>
 <body>
     <H1>Welcome Customers ! </H1>
@@ -28,11 +41,36 @@
         <table>
             <thead>
                 <tr>
-                    <th></th>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Status</th>
+                    <th>Select Quantity</th>
                 </tr>
             </thead>
+            <tbody>
+                {% for product in products %}
+                <td>{{ product.name }}</td>
+                <td>{{ product.price }}</td>
+                <td>
+                    {% if product.quantity > 0 %}
+                        In Stock
+                    {% else %}
+                        Out Of Stock
+                    {% endif %}
+                </td>
+                <td>
+                    {% if product.quantity > 0 %}
+                        <button type="button" onclick="decrement('{{ product.id }}')">-</button>
+                        <input type="number" name="quantity_{{ product.id }}" id="quantity_{{ product.id }}" value="1" min="1" max="{{ product.quantity }}">
+                        <button type="button" onclick="increment('{{ product.id }}')">+</button>
+                    {% else %}
+                            N/A
+                    {% endif %}
+                </td>
+                {% endfor %}
+            </tbody>
         </table>
-
+        <button type="submit">Checkout</button>
     </form>
 
 </body>
