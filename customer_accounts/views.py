@@ -4,4 +4,4 @@ from django.http import HttpResponse
 # Create your views here.
 
 def customer_login_page(request):
-    return HttpResponse("His this will be the customer login page.")
+    return render(request, 'customer_accounts/login_page.html')
