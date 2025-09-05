@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # added manually
     'customer',
-    'staff'
+    'staff',
+    'customer_accounts'
 ]
 
 MIDDLEWARE = [
