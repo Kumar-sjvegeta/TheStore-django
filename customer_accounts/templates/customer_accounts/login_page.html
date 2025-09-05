@@ -5,7 +5,7 @@
     <title>Login</title>
 </head>
 <body>
-    <h1>This will be the login page.</h1>
+    <h1>Please enter your credentials to login.</h1>
     <div>
         <form method="POST" action="{% url 'customer_login_action' %}">
             {% csrf_token %}
@@ -13,7 +13,7 @@
                 <input type="text" name="username" placeholder="Your Username"/>
             </div>
             <div>
-                <input type="text" name="password" placeholder="Your Password"/>
+                <input type="password" name="password" placeholder="Your Password"/>
             </div>
             <div>
                 <button type="submit">Login</button>
