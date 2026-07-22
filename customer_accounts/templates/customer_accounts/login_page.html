@@ -6,6 +6,15 @@
 </head>
 <body>
     <h1>Please enter your credentials to login.</h1>
+
+    {% if messages %}
+    <ul>
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
     <div>
         <form method="POST" action="{% url 'customer_login_action' %}">
             {% csrf_token %}
