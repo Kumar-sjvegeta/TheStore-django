@@ -5,6 +5,11 @@
     <title>Home</title>
 </head>
 <body>
+<div style="text-align:right;">
+    Signed in as <strong>{{ user.username }}</strong> &middot;
+    <a href="{% url 'staff_logout_action' %}">Logout</a>
+</div>
+
 <H1>This is the homepage on staff side app of the TheStore project. </H1>
 
 <a href="{% url 'staff_inventory' %}">Go to Inventory</a>

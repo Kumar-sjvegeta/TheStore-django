@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Item</title>
+    <style>
+        label { display: block; margin-top: 10px; }
+        input { padding: 4px; }
+    </style>
+</head>
+<body>
+    <h1>Edit Item</h1>
+
+    {% if messages %}
+    <ul>
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    <form method="POST" action="{% url 'edit_item' item.id %}">
+        {% csrf_token %}
+        <label>Name
+            <input type="text" name="name" value="{{ item.name }}" required>
+        </label>
+        <label>Price
+            <input type="number" step="0.01" min="0" name="price" value="{{ item.price }}" required>
+        </label>
+        <label>Quantity
+            <input type="number" min="0" name="quantity" value="{{ item.quantity }}" required>
+        </label>
+        <div style="margin-top: 15px;">
+            <button type="submit">Save Changes</button>
+            <a href="{% url 'staff_inventory' %}">Cancel</a>
+        </div>
+    </form>
+</body>
+</html>

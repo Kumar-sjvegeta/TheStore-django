@@ -44,6 +44,19 @@
     </style>
 </head>
 <body>
+    <div style="text-align:right;">
+        Signed in as <strong>{{ user.username }}</strong> &middot;
+        <a href="{% url 'staff_logout_action' %}">Logout</a>
+    </div>
+
+    {% if messages %}
+    <ul>
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
     <H3>This is the inventory page of the staff app in TheStore project. Welcome ! </H3>
     <h1>Inventory List: </h1>
     <a href="{% url 'add_items' %}">
@@ -59,6 +72,7 @@
                     <th>Name</th>
                     <th>Price</th>
                     <th>Quantity</th>
+                    <th>Edit</th>
                     <th>Add</th>
                 </tr>
             </thead>
@@ -71,6 +85,9 @@
                         <td>{{ item.name }}</td>
                         <td>{{ item.price }}</td>
                         <td>{{ item.quantity }}</td>
+                        <td>
+                            <a href="{% url 'edit_item' item.id %}">Edit</a>
+                        </td>
                         <td>
                             <button type="button" class="show-counter" data-id="{{ item.id }}">Add</button>
                             <div class="counter-box" id="counter-{{ item.id }}">
